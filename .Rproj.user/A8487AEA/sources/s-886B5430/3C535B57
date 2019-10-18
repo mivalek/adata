@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571412078649.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4116331488",
+    "id" : "3C535B57",
+    "lastKnownWriteTime" : 1571411694,
+    "last_content_update" : 1571411694,
+    "path" : "N:/teaching/analysing_data/adata/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}

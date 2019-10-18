@@ -1,0 +1,11 @@
+Package: adata
+Type: Package
+Title: R functions for Analysing Data at University of Sussex School of Psychology
+Version: 0.1.0
+Author: Milan Valasek
+Maintainer: The package maintainer <m.valasek@sussex.ac.uk>
+Description: Coming up at some point...
+License: GNU
+Encoding: UTF-8
+LazyData: true
+Imports: tibble
