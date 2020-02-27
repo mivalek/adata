@@ -24,6 +24,11 @@ red_data <- function(seed = candidate_number,
   data$rating[data$rating > 9] <- 9
   data$rating[data$rating < 1] <- 1
 
+  data <- tidyr::pivot_wider(data,
+                             c(id, age, condition),
+                             names_from = item,
+                             names_prefix = "item_",
+                             values_from = rating)
 
   typo <- sample(n, 1)
   typo_cat <- data$condition[typo] + 1
@@ -37,20 +42,15 @@ red_data <- function(seed = candidate_number,
 
 
   # introduce a 2-9[qwertyuio] sting in age
-  typo_age <- as.character(sample(unique(data$id), 1))
-  data$age[data$id == typo_age][sample(1:3, 1)] <- paste0(
+  typo_age <- as.character(sample(data$id, 1))
+  data$age[data$id == typo_age] <- paste0(
     stringr::str_split(data$age[data$id == typo_age][1], "", simplify = T)[1],
     sample(stringr::str_split("qwertyuio", "", simplify = T), 1))
-  age_na <- as.character(sample(setdiff(unique(data$id), typo_age), sample(4:7, 1)))
+  age_na <- as.character(sample(setdiff(data$id, typo_age), sample(2:3, 1)))
   data$age[data$id %in% age_na] <- NA
-  minors <- sample(setdiff(unique(data$id), c(typo_age, age_na)), sample(1:3, 1))
-  data$age[data$id %in% minors] <- sample(1:14, length(minors))
+  minors <- sample(setdiff(data$id, c(typo_age, age_na)), sample(1:2, 1))
 
-  data <- tidyr::pivot_wider(data,
-                             c(id, age, condition),
-                             names_from = item,
-                             names_prefix = "item_",
-                             values_from = rating)
+  data$age[data$id %in% minors] <- sample(1:14, length(minors))
 
   if (!mark) {
     var_names <- list(
