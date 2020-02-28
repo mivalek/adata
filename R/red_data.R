@@ -5,7 +5,7 @@
 #' Elliot, A. J., Niesta Kayser, D., Greitemeyer, T., Lichtenfeld, S., Gramzow, R. H., Maier, M. A., & Liu, H. (2010). Red, rank, and romance in women viewing men. Journal of Experimental Psychology: General, 139(3), 399.
 
 red_data <- function(seed = candidate_number,
-                     n = 21, age_m = 20.19, age_sd = 2.5, attr_m = 5.67, attr_sd = 1.34, d = 1, mark = F) {
+                     n = 150, age_m = 20.19, age_sd = 2.5, attr_m = 5.67, attr_sd = 1.34, d = 1, mark = F) {
   set.seed(seed)
 
   age_m <- age_m + rnorm(1, 0, .2)
@@ -14,10 +14,13 @@ red_data <- function(seed = candidate_number,
   attr_sd <- attr_sd  + rnorm(1, 0, .05)
   diff <- d + rnorm(1, 0, .3)
 
+  n_ctrl <- sample((n/2-5):(n/2+5), 1)
+  n_exp <- n - n_ctrl
+
   data <- tibble::tibble(
     id = factor(rep(replicate(n, paste(sample(LETTERS, 4, replace = T), collapse = "")), each = 3)),
     age = rep(round(rnorm(n, age_m, age_sd)), each = 3),
-    condition = rep(rep(0:1, c(11, 10)), each = 3),
+    condition = rep(rep(0:1, c(n_ctrl, n_exp)), each = 3),
     item = rep(1:3, n),
     rating = round(rnorm(n * 3, attr_m + condition * diff, attr_sd)))
 
@@ -39,6 +42,7 @@ red_data <- function(seed = candidate_number,
     cond_lab,
     # randomly remove a letter from cond_lab[typo_cat] and make that label of data$condition == 3
     paste(unlist(stringr::str_split(cond_lab[typo_cat], ""))[-sample(nchar(cond_lab[typo_cat]), 1)], collapse = "")))
+  data$condition <- factor(as.character(data$condition))
 
 
   # introduce a 2-9[qwertyuio] sting in age

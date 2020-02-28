@@ -31,17 +31,18 @@ green_data <- function(seed = candidate_number,
   typo_cat <- data$condition[typo] + 1
   data$condition[typo] <- 3
 
-  cond_lab <- c("control", "experimental")
+  cond_lab <- sample(c("control", "experimental"))
   data$selection <- factor(data$selection, labels = c("luxury", "green"))
   data$condition <- factor(data$condition, labels = c(
-    sample(cond_lab),
+    cond_lab,
     # randomly remove a letter from cond_lab[typo_cat] and make that label of data$condition == 3
-    paste(unlist(str_split(cond_lab[typo_cat], ""))[-sample(nchar(cond_lab[typo_cat]), 1)], collapse = "")))
+    paste(unlist(stringr::str_split(cond_lab[typo_cat], ""))[-sample(nchar(cond_lab[typo_cat]), 1)], collapse = "")))
+  data$condition <- factor(as.character(data$condition))
 
   # introduce a 2-9[qwertyuio] sting in age
   typo_age <- as.character(sample(unique(data$id), 1))
-  data$age[data$id == typo_age][sample(1:3, 1)] <- paste0(str_split(data$age[data$id == typo_age][1], "", simplify = T)[1],
-                                                          sample(str_split("qwertyuio", "", simplify = T), 1))
+  data$age[data$id == typo_age][sample(1:3, 1)] <- paste0(stringr::str_split(data$age[data$id == typo_age][1], "", simplify = T)[1],
+                                                          sample(stringr::str_split("qwertyuio", "", simplify = T), 1))
   age_na <- as.character(sample(setdiff(unique(data$id), typo_age), sample(4:7, 1)))
   data$age[data$id %in% age_na] <- NA
   minors <- sample(setdiff(unique(data$id), c(typo_age, age_na)), sample(1:3, 1))
