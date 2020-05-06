@@ -6,6 +6,7 @@
 
 red_data <- function(seed = candidate_number,
                      n = 150, age_m = 20.19, age_sd = 2.5, attr_m = 5.67, attr_sd = 1.34, d = 1, mark = F) {
+  RNGkind(sample.kind = "Rejection") # set correct RNG kind
   set.seed(seed)
 
   age_m <- age_m + rnorm(1, 0, .2)
