@@ -4,8 +4,8 @@
 #'
 #' Griskevicius, V., Tybur, J. M., & Van den Bergh, B. (2010). Going green to be seen: status, reputation, and conspicuous conservation. Journal of personality and social psychology, 98(3), 392.
 
-green_data <- function(seed = candidate_number,
-                       n = 168, age_m = 20.19, age_sd = 2.5, es = .15, mark = F) {
+green_data <- function(seed = candidate_number, n = 168, age_m = 20.19,
+                       age_sd = 2.5, es = .15, mark = FALSE, messy = TRUE) {
   RNGkind(sample.kind = "Rejection") # set correct RNG kind
   set.seed(seed)
 
@@ -27,27 +27,32 @@ green_data <- function(seed = candidate_number,
     }
   }
 
-  length(data)
-  typo <- sample(n, 1)
-  typo_cat <- data$condition[typo] + 1
-  data$condition[typo] <- 3
+  if (messy) {
+    typo <- sample(n, 1)
+    typo_cat <- data$condition[typo] + 1
+    data$condition[typo] <- 3
 
-  cond_lab <- sample(c("control", "experimental"))
-  data$selection <- factor(data$selection, labels = c("luxury", "green"))
-  data$condition <- factor(data$condition, labels = c(
-    cond_lab,
-    # randomly remove a letter from cond_lab[typo_cat] and make that label of data$condition == 3
-    paste(unlist(stringr::str_split(cond_lab[typo_cat], ""))[-sample(nchar(cond_lab[typo_cat]), 1)], collapse = "")))
-  data$condition <- factor(as.character(data$condition))
+    cond_lab <- sample(c("control", "experimental"))
+    data$selection <- factor(data$selection, labels = c("luxury", "green"))
+    data$condition <- factor(data$condition, labels = c(
+      cond_lab,
+      # randomly remove a letter from cond_lab[typo_cat] and make that label of data$condition == 3
+      paste(unlist(stringr::str_split(cond_lab[typo_cat], ""))[-sample(nchar(cond_lab[typo_cat]), 1)], collapse = "")))
+    data$condition <- factor(as.character(data$condition))
 
-  # introduce a 2-9[qwertyuio] sting in age
-  typo_age <- as.character(sample(unique(data$id), 1))
-  data$age[data$id == typo_age][sample(1:3, 1)] <- paste0(stringr::str_split(data$age[data$id == typo_age][1], "", simplify = T)[1],
-                                                          sample(stringr::str_split("qwertyuio", "", simplify = T), 1))
-  age_na <- as.character(sample(setdiff(unique(data$id), typo_age), sample(4:7, 1)))
-  data$age[data$id %in% age_na] <- NA
-  minors <- sample(setdiff(unique(data$id), c(typo_age, age_na)), sample(1:3, 1))
-  data$age[data$id %in% minors] <- sample(1:14, length(minors))
+    # introduce a 2-9[qwertyuio] sting in age
+    typo_age <- as.character(sample(unique(data$id), 1))
+    data$age[data$id == typo_age][sample(1:3, 1)] <- paste0(stringr::str_split(data$age[data$id == typo_age][1], "", simplify = T)[1],
+                                                            sample(stringr::str_split("qwertyuio", "", simplify = T), 1))
+    age_na <- as.character(sample(setdiff(unique(data$id), typo_age), sample(4:7, 1)))
+    data$age[data$id %in% age_na] <- NA
+    minors <- sample(setdiff(unique(data$id), c(typo_age, age_na)), sample(1:3, 1))
+    data$age[data$id %in% minors] <- sample(1:14, length(minors))
+  } else {
+    cond_lab <- sample(c("control", "experimental"))
+    data$selection <- factor(data$selection, labels = c("luxury", "green"))
+    data$condition <- factor(data$condition, labels = cond_lab)
+  }
 
   if (!mark) {
     var_names <- list(
