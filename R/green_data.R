@@ -3,6 +3,8 @@
 #' Simulates data based on Griskevicius, Tybur, & Van den Bergh (2010)
 #'
 #' Griskevicius, V., Tybur, J. M., & Van den Bergh, B. (2010). Going green to be seen: status, reputation, and conspicuous conservation. Journal of personality and social psychology, 98(3), 392.
+#'
+#' @export
 
 green_data <- function(seed = candidate_number, n = 168, age_m = 20.19,
                        age_sd = 2.5, es = .15, mark = FALSE, messy = TRUE) {

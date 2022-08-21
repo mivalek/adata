@@ -1,4 +1,7 @@
 #' Demographic data
+#'
+#' @export
+
 
 demo_data <- function(seed = candidate_number, n = 150, age_m = 20.19, age_sd = 2.5,
                       attr_m = 5.67, attr_sd = 1.34, d = 1, mark = FALSE, messy = TRUE) {
@@ -7,7 +10,6 @@ demo_data <- function(seed = candidate_number, n = 150, age_m = 20.19, age_sd = 
   df$gender <- sample(1:4, nrow(df), replace = TRUE, prob = c(.505, .41, .065, .02))
   df$withdraw <- NA
   df$withdraw[sample(1:nrow(df), sample(4:7, 1))] <- "Yes"
-
 
   if (!mark) {
     var_names <- list(

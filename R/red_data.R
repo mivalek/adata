@@ -3,6 +3,8 @@
 #' Simulates data based on Elliot, et al. (2010)
 #'
 #' Elliot, A. J., Niesta Kayser, D., Greitemeyer, T., Lichtenfeld, S., Gramzow, R. H., Maier, M. A., & Liu, H. (2010). Red, rank, and romance in women viewing men. Journal of Experimental Psychology: General, 139(3), 399.
+#'
+#' @export
 
 red_data <- function(seed = candidate_number, n = 150, age_m = 20.19, age_sd = 2.5,
                      attr_m = 5.67, attr_sd = 1.34, d = 1, mark = FALSE, messy = TRUE) {
